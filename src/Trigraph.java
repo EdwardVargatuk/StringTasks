@@ -1,105 +1,107 @@
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class Trigraph {
 
+   private static final int TRIGRAPH = 3;
+//    private List<String> listOfWordsInFile = new ArrayList<>();
+//    private List<String> listOfTrigraphs = new ArrayList<>();
 
-private List<String> getTh(String strings){
-    int len = strings.length();
 
-    List<String> tr = new ArrayList<>();
-    for (int i = 0; i < len-2; i++) {
+//    private List<String> divideToTrigraph(String strings) {
+//        int lenOfStr = strings.length();
+//        List<String> listOfTrigraphInStr = new ArrayList<>();
+//        for (int i = 0; i < lenOfStr - 2; i++) {
+//            listOfTrigraphInStr.add(strings.toUpperCase().substring(i, i + 3));
+//        }
+//        return listOfTrigraphInStr;
+//    }
 
-    String row = strings.toUpperCase().substring(i, i + 3);
-
-    tr.add(row);
-
+    private List<String> read(File file) {
+        List<String> listOfWordsInFile = new ArrayList<>();
+        try {
+            Scanner reader = new Scanner(file);
+            while (reader.hasNext()) {
+                String str = reader.next().replaceAll("[,.\";:?!\\-+|\\[\\](){}`’']", "");
+//                String result = str.replaceAll("[,.\";:?!\\-+|\\[\\](){}`’']", "");
+                listOfWordsInFile.add(str);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading file named '" + "'");
+        }
+        return listOfWordsInFile;
     }
-//    System.out.println(tr);
-    return tr;
-}
 
-    public String read(String file) throws IOException {
-        return new String(Files.readAllBytes(Paths.get(file)));
+    private void divideToTrigraph(List<String> words) {
+//        List<String> listOfTrigraphs = new ArrayList<>();
+        List<String> listOfTrigraphs = new ArrayList<>();
+        for (String strings : words) {
+            if (strings.length() >= TRIGRAPH)
+                for (int i = 0; i < strings.length() - (TRIGRAPH-1); i++) {
+                    listOfTrigraphs.add(strings.toUpperCase().substring(i, i + TRIGRAPH));
+                }
+//            listOfTrigraphs.addAll(listOfTrigraphs);
+
+        }
+                System.out.println(words);
+        System.out.println(listOfTrigraphs);
+
+        Map<String, Integer> treeMap = new TreeMap<>();
+        Integer count;
+        for (String strFromListOfTrigraph : listOfTrigraphs) {
+            count = treeMap.get(strFromListOfTrigraph);
+            treeMap.put(strFromListOfTrigraph, count == null ? 1 : count + 1);
+        }
+
+        System.out.println(treeMap);
+//        System.out.println(listOfTrigraphs);
     }
 
-    public static void main(String[] args) throws IOException {
-        List<String> list = new ArrayList<>();
-
-        Trigraph trigraph = new Trigraph();
+    public static void main(String[] args)  {
         String sss = "The";
+
+
         List<String> newlist = new ArrayList<>();
 
-//        System.out.println(  trigraph.read("D:\\JDK\\TEMP\\test.txt"));
-//list.add(trigraph.read("D:\\JDK\\TEMP\\test.txt"));
-//        System.out.println(list);
+
+        File file = new File("src/test.txt");
+
+
+        Trigraph trigraph = new Trigraph();
+
+
+        newlist.add(sss);
+        newlist.add("CoFuck");
+        newlist.add("Someword");
+        newlist.add("Co]");
+        trigraph.divideToTrigraph(newlist);
+trigraph.divideToTrigraph(trigraph.read(file));
+//
+//        newlist.sort(Comparator.naturalOrder());
+//        System.out.println(newlist);
+
+
+//        Map<String, Integer> treeMap = new TreeMap<>();
+//        Integer count;
+//        for (String strFromNewlist : newlist) {
+//            count = treeMap.get(strFromNewlist);
+//            treeMap.put(strFromNewlist, count == null ? 1 : count + 1);
+//
+//        }
+//
+//        System.out.println(treeMap);
+
+
+        //        System.out.println(  trigraph.read("D:\\JDK\\TEMP\\test.txt"));
+//listOfTrigraph.add(trigraph.read("D:\\JDK\\TEMP\\test.txt"));
+//        System.out.println(listOfTrigraph);
 
 //        String fname;
 //        Scanner scan = new Scanner(trigraph.read("D:\\JDK\\TEMP\\test.txt"));
 //
 //        fname = scan.next();
 //        System.out.println();
-
-
-File file = new File("src/test.txt");
-        Scanner reader = new Scanner(file);
-//
-
-//        System.out.println(reader.nextLine());
-        while  (reader.hasNext()) {
-            String str = reader.next();
-            String result = str.replaceAll("[,.\";:?!\\-+|\\[\\](){}']","");
-//        for (int i = 0; i < str.length(); i++) {
-//                for (int j = 0; j < c.length; j++) {
-//                    if (str.charAt(i) == c[j]) {
-//                        str.replace(c[j], "");
-//                        list.remove(str.length());
-
-             list.add(result);
-
-
-        }
-        for (String list11:list) {
-            if (list11.length()>=3)
-
-            newlist.addAll(trigraph.getTh(list11));
-
-        }
-        System.out.println(list);
-        System.out.println(newlist);
-        newlist.sort(Comparator.naturalOrder());
-        System.out.println(newlist);
-
-
-
-
-        Map<String, Integer> treeMap = new TreeMap<>();
-        Integer count;
-        for (String strFromNewlist : newlist) {
-            count = treeMap.get(strFromNewlist);
-            treeMap.put(strFromNewlist, count == null ? 1 : count + 1);
-
-        }
-
-        System.out.println(treeMap);
-
-
-//        Map<String, Integer> treeMap
-//                = new TreeMap<>();
-//        treeMap.put( "Smith", 30);
-//        treeMap.put( "Smith" , 31);
-//        treeMap.put( "Lewis", 29);
-//        treeMap.put( "Cook", 29);
-//        System.out.println("Display entries in HashMap" );
-//        System.out.println(treeMap);
-
-//        String word = null;
-
-
-
 
 
 //        try
@@ -117,20 +119,21 @@ File file = new File("src/test.txt");
 ////            }
 //
 //            {
-//                list.add(String.valueOf(c));
-//                System.out.println(list);
+//                listOfTrigraph.add(String.valueOf(c));
+//                System.out.println(listOfTrigraph);
 //            }
 //
 //
 //
 //            /* always close the file after use */
 ////            bufferedReader.close();
-//        }
+        //        }
 //        catch(IOException ex)
 //        {
 //            System.out.println("Error reading file named '" + "'");
 //        }
 
-    }
 
     }
+
+}
