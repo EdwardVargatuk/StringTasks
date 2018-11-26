@@ -60,6 +60,7 @@ public class Trigraph {
     public static void main(String[] args) {
         String file = "src/test.txt";
         Trigraph trigraph = new Trigraph();
+        //choose file and number of graphs
         trigraph.readAndDivideToGraphsFile(file, 3);
     }
 }
