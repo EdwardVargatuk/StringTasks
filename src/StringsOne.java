@@ -1,20 +1,18 @@
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
 
 public class StringsOne {
 
     private List<String> listOfWordsInFile = new ArrayList<>();
-    private Map<String, Long> treeMap;
+    private Map<String, Integer> treeMap;
 
 
     private List<String> getListOfWordsInFile() {
         return listOfWordsInFile;
     }
 
-    private Map<String, Long> getTreeMap() {
+    private Map<String, Integer> getTreeMap() {
         return treeMap;
     }
 
@@ -30,29 +28,50 @@ public class StringsOne {
     private void countingWordsInText(List<String> words) {
         List<String> list = new ArrayList<>();
         Map<String, Long> treeMapWithout0;
-List <Boolean> b = new ArrayList<>();
+        Map<String, Integer> treeMapWithout= new TreeMap<>();
+        List<Integer> longs= new ArrayList<>();
         listOfWordsInFile.forEach(nested -> words.stream().filter(nested::equalsIgnoreCase).forEach(list::add));
+        for (String word : words) {
 
-//        Predicate<String> predicate = i->Map.Entry.getKey().equalsIgnoreCase(i));
 
-        treeMapWithout0 = list.stream().collect(Collectors.groupingBy(key -> key, Collectors.counting()));
-        System.out.println(treeMapWithout0);
+            int lon = Collections.frequency(list, word);
+            longs.add(lon);
+            treeMapWithout.put(word, lon);
+        }
+        System.out.println(treeMapWithout);
+        System.out.println(longs);
+//        treeMapWithout0 = list.stream().collect(Collectors.groupingBy(key -> key, Collectors.counting()));
+//
 //        words.stream().filter(w -> !treeMapWithout0.containsKey(w)).forEach(x -> treeMapWithout0.put(x, (long) 0));
 
-
-//        treeMapWithout0.entrySet().forEach((nested,x) -> words.stream().filter(i->nested.equalsIgnoreCase(i)).forEach(System.out::println));
-        treeMap = treeMapWithout0.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue(Collections.reverseOrder())).collect(Collectors.toMap(Map.Entry::getKey,
+        treeMap = treeMapWithout.entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).collect(Collectors.toMap(Map.Entry::getKey,
                         Map.Entry::getValue,
                         (e1, e2) -> e2,
                         LinkedHashMap::new));
+
+//        treeMapWithout.entrySet().stream()
+//                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+//                .forEach(System.out::println);
+
+//        treeMapWithout0 = listOfWordsInFile.stream().filter((i)->words.get(2).equalsIgnoreCase(i)).collect(Collectors.groupingBy(key -> key, Collectors.counting()));
+//        System.out.println(treeMapWithout0);
+//
+//        Predicate<Boolean> predicate = i->treeMapWithout0.containsKey(i);
+//words.stream().filter(i->treeMapWithout0.containsKey(i)).forEach(System.out::println);
+//        treeMapWithout0.entrySet().forEach((nested,x) -> words.stream().filter(i->nested.equalsIgnoreCase(i)).forEach(System.out::println));
+//       treeMapWithout0.entrySet().stream().forEach(nested -> words.stream().filter(i->nested.getKey().equalsIgnoreCase(i)).forEach(System.out::println));
+//                .sorted(Map.Entry.comparingByValue(Collections.reverseOrder())).collect(Collectors.toMap(Map.Entry::getKey,
+//                        Map.Entry::getValue,
+//                        (e1, e2) -> e2,
+//                        LinkedHashMap::new));
     }
 
     private void sortWordsAccordingTheirFrequency(String words, List<String> forFrequency) {
         read(words);
         System.out.println(listOfWordsInFile);
         countingWordsInText(forFrequency);
-        Map<String, Long> treeMap1 = getTreeMap();
+        Map<String, Integer> treeMap1 = getTreeMap();
         treeMap1.forEach((key, value) -> System.out.println(key + " = " + value));
     }
 
@@ -66,9 +85,8 @@ List <Boolean> b = new ArrayList<>();
         lists.add("best");
         lists.add("for");
         lists.add("spring");
+
         stringsOne.sortWordsAccordingTheirFrequency(text, lists);
-
-
 
 
         //        for (String word : words) {
